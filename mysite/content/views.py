@@ -6,9 +6,15 @@ from django.http import HttpResponseRedirect
 def home(request):
     return render(request, 'content/home.html')
 
+from django.core.paginator import Paginator
+
 def blog(request):
     posts = BlogPost.objects.all()
-    return render(request, 'content/blog.html', {'posts': posts})
+    paginator = Paginator(posts, 5)  # Показать по 5 постов на странице
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'content/blog.html', {'page_obj': page_obj})
 
 def contact(request):
     if request.method == 'POST':

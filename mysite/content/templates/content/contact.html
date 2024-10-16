@@ -1,6 +1,16 @@
-<h1>Contact Us</h1>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Send</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+</head>
+<body>
+    <h1>Contact Us</h1>
+    <form method="post">  <!-- Форма отправляется через POST -->
+        {% csrf_token %}  <!-- Защита от CSRF атак -->
+        {{ form.as_p }}   <!-- Вывод формы в виде HTML-параграфов -->
+        <button type="submit">Send</button>
+    </form>
+</body>
+</html>
