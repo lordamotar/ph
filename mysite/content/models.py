@@ -19,3 +19,31 @@ class ContactMessage(models.Model):
 
     def __str__(self):
         return f"Message from {self.name}"         # Удобное строковое представление объекта в админ панели
+
+class PortfolioItem(models.Model):
+    title = models.CharField(max_length=200)  # Заголовок
+    description = models.TextField()          # Описание
+    tags = models.CharField(max_length=100)   # Теги через запятую
+    media = models.FileField(upload_to='portfolio/')  # Медиафайл
+
+    def __str__(self):
+        return self.title
+
+class Service(models.Model):
+    title = models.CharField(max_length=200)       # Название услуги
+    description = models.TextField()               # Краткое описание услуги
+    tags = models.CharField(max_length=100)        # Теги через запятую
+    price = models.DecimalField(max_digits=10, decimal_places=2)  # Цена
+
+    def __str__(self):
+        return self.title
+
+class Order(models.Model):
+    service = models.CharField(max_length=200)      # Название услуги
+    price = models.DecimalField(max_digits=10, decimal_places=2)  # Цена услуги
+    name = models.CharField(max_length=100)         # Имя клиента
+    phone = models.CharField(max_length=15)         # Телефон
+    message = models.TextField()                    # Сообщение
+
+    def __str__(self):
+        return f"Order for {self.service} by {self.name}"

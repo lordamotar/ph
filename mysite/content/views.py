@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from .models import BlogPost
+from .models import BlogPost, PortfolioItem, Service
 from .forms import ContactForm
 from django.http import HttpResponseRedirect
+from .forms import OrderForm
 
 def home(request):
     return render(request, 'content/home.html')
@@ -25,3 +26,26 @@ def contact(request):
     else:
         form = ContactForm()
     return render(request, 'content/contact.html', {'form': form})
+
+def portfolio(request):
+    items = PortfolioItem.objects.all()
+    return render(request, 'content/portfolio.html', {'items': items})
+
+def services(request):
+    services = Service.objects.all()
+    return render(request, 'content/services.html', {'services': services})
+
+def order_service(request, service_id):
+    service = Service.objects.get(id=service_id)
+
+    if request.method == 'POST':
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            order = form.save(commit=False)
+            order.service = service
+            order.save()
+            return HttpResponseRedirect('/thank-you/')
+    else:
+        form = OrderForm(initial={'service': service.title, 'price': service.price})
+
+    return render(request, 'content/order_form.html', {'form': form, 'service': service})

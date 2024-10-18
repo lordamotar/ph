@@ -1,16 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us</title>
-</head>
-<body>
-    <h1>Contact Us</h1>
-    <form method="post">  <!-- Форма отправляется через POST -->
-        {% csrf_token %}  <!-- Защита от CSRF атак -->
-        {{ form.as_p }}   <!-- Вывод формы в виде HTML-параграфов -->
-        <button type="submit">Send</button>
-    </form>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}Contact{% endblock %}
+
+{% block content %}
+<h1>Contact Us</h1>
+<form method="post" action="/submit-contact-form/">
+    {% csrf_token %}
+    <p><label for="name">Name:</label><input type="text" name="name" id="name"></p>
+    <p><label for="email">Email:</label><input type="email" name="email" id="email"></p>
+    <p><label for="message">Message:</label><textarea name="message" id="message"></textarea></p>
+    <button type="submit">Send Message</button>
+</form>
+{% endblock %}
